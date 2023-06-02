@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="libraries/p5.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <input type="range" min="0" max="400" value="50" id="my-slider1">
+  <input type="range" min="0" max="100" value="50" id="my-slider2">
+  <input type="range" min="0" max="100" value="50" id="my-slider3">
+  <input type="range" min="0" max="100" value="50" id="my-slider4">
+</body>
+
+<script>
+  let tile = 15
+  // Grundstruktur
+  // setup wird von der Library einmal zum Start aufgerufen
+  function setup() {
+    createCanvas(windowWidth, windowHeight);
+  }
+  // draw wird 60 mal in der Sekunde aufgerufen
+  function draw() {
+    background (0);
+    strokeWeight (2);
+    stroke (200);
+    frameRate([80])
+let value1 = document.getElementById("my-slider1").value 
+value1 = parseInt (value1)
+    for (let x=0;x<mouseX; x=x+tile){
+      for (let y=0;y<mouseY; y=y+tile){
+        fill(random(40), 0, random(255))
+      line(x, y, value1, 80);
+    }
+
+  }   
+}  
+</script>
+</html>

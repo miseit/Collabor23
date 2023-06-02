@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="libraries/p5.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <input type="range" min="1" max="50" value="1" id="slider1" oninput="updateSlider1()">
+  <input type="range" min="0" max="255" value="0" id="slider2" oninput="updateSlider2()">
+  <input type="range" min="1" max="20" value="10" id="slider3" oninput="updateSlider3()">
+  <input type="range" min="0" max="255" value="0" id="slider4" oninput="updateSlider4()">
+</body>
+
+<script>
+let squareColors;
+let lastColorChange;
+let squareSize;
+let squareSpacing;
+let numSquares;
+let backgroundColor;
+let lastBackgroundColorChange;
+let rotationAngle;
+let tile = 50
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noFill();
+  squareColors = []; // Array to store colors of each square
+  lastColorChange = millis(); // Initialize the last color change time
+  squareSize = 30;
+  squareSpacing = 20;
+  numSquares = 1;
+  backgroundColor = color(0); // Initial background color (black)
+  lastBackgroundColorChange = millis(); // Initialize the last background color change time
+  rotationAngle = 0; // Initial rotation angle
+
+  // Initialize the colors for each square
+  for (let i = 0; i < numSquares; i++) {
+    squareColors.push(color(random(255), random(255), random(255)));
+  }
+}
+
+function draw() {
+  // Calculate the elapsed time since the last color change
+  let elapsedTime = millis() - lastColorChange;
+
+  // Change the color every second
+  if (elapsedTime >= 1000) {
+    for (let i = 0; i < numSquares; i++) {
+      squareColors[i] = color(random(255), random(255), random(255));
+    }
+    lastColorChange = millis();
+  }
+
+  // Calculate the elapsed time since the last background color change
+  let backgroundElapsedTime = millis() - lastBackgroundColorChange;
+
+  // Change the background color every 0.1 second
+  if (backgroundElapsedTime >= 100) {
+    backgroundColor = color(document.getElementById("slider4").value);
+    lastBackgroundColorChange = millis();
+  }
+
+  strokeWeight(document.getElementById("slider1").value); // Get the value of the thickness slider
+
+  // Calculate the center position of the line of squares
+  let centerX = mouseX;
+  let centerY = mouseY;
+
+  // Rotate the line of squares (3x faster)
+  rotationAngle += 0.1;
+
+  // Update the number of squares based on the slider value
+  numSquares = document.getElementById("slider3").value;
+
+  tile = document.getElementById ("slider2").value
+  tile = parseInt (tile)
+
+
+
+  // Draw the squares in a loop
+  for (let i = 0; i < numSquares; i++) {
+    let angle = rotationAngle + i * PI / numSquares;
+    let radius = squareSpacing * i;
+
+    let squareX = centerX + cos(angle) * radius;
+    let squareY = centerY + sin(angle) * radius;
+
+    stroke(squareColors[i % squareColors.length]);
+    rectMode(CENTER);
+    rect(squareX, squareY, squareSize, squareSize);
+  }
+}
+
+</script>
+</html>
